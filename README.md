@@ -1,5 +1,5 @@
 # General Assembly Projects
-**Multi-Class Classification using Twitter*
+# Multi-Class Classification using Twitter
 
 
 
