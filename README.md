@@ -1,3 +1,5 @@
 # General Assembly Projects
-**Twitter Sentiment Analysis**
+**Multi-Class Classification using Twitter*
+
+
 
