@@ -2,49 +2,38 @@ from nltk.stem.snowball import SnowballStemmer
 import string
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from textblob import TextBlob, Word
+from datetime import datetime as dt
+from sklearn.cross_validation import train_test_split
 
-def parseOutText(text_string):
-	stemmer=SnowballStemmer('english')
-	words = ""
-	if len(text_string) > 1:
-	    ### remove punctuation
-	    #text_string = content[1].translate(string.maketrans("", ""), string.punctuation)
-
-	    
-	    w=TextBlob(text_string)
-	    word=[stemmer.stem(word) for word in w.words]
-	    for w in word:
-	        words+=w+" "
-
-	    
-
-	    ### split the text string into individual words, stem each word,
-	    #words=[stemmer.stem(word) for word in text_string]
-	    ### and append the stemmed word to words (make sure there's a single
-	    ### space between each stemmed word)
-	    
+def split_train_test(X,y):
+	X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=2,stratify=y)
+	return X_train, X_test, y_train, y_test
 
 
 
 
-	return str(words)
+def test_classifier(vect,clf):
+	X_train_dtm=vect.fit_transform(X_train)
+	print "Features: ",X_train_dtm.shape[1]
+	clf.fit(X_train_dtm,y_train)
+	X_test_dtm=vect.transform(X_test)
+    y_pred_class=nb.predict(X_test_dtm)
+    print "Accuracy: ",metrics.accuracy_score(y_test,y_pred_class)
 
-
-def stemmed_word(text):
-	#text = unicode(text, 'utf-8').lower()
-	text=str(text).encode('ascii',"ignore").decode("ascii")
-	w=TextBlob(text)
-	
-	stemmed_words=[stemmer.stem(word) for word in w.words]
-	return stemmed_words
-
+def confusion_ROC(vect,clf):
+    X_train_dtm=vect.fit_transform(X_train)
+    print "Features: ",X_train_dtm.shape[1]
+    X_test_dtm=vect.transform(X_test)
+    clf.fit(X_train_dtm,y_train)
+    y_pred_class=clf.predict(X_test_dtm)
+    print "confusion matrix ",metrics.confusion_matrix(y_test, y_pred_class)
 
 def split_into_lemmas(text):
-	#text = unicode(text, 'utf-8').lower()
-	text=str(text).encode('ascii',"ignore").decode("ascii")
-	words = TextBlob(text).words
-	lemmatized_words=[word.lemmatize() for word in words]
-	return lemmatized_words
-    
+    text = unicode(text, 'utf-8').lower()
+    words = TextBlob(text).words
+    return [word.lemmatize() for word in words]
 
- 	
+def split_into_stem(text):
+    text = unicode(text, 'utf-8').lower()
+    words = TextBlob(text).words
+    return [stemmer.stem(word) for word in words]
