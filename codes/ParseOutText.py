@@ -17,7 +17,7 @@ from sklearn.naive_bayes import MultinomialNB
 clfNB=MultinomialNB()
 #knn classifier
 from sklearn.neighbors import KNeighborsClassifier
-knn = KNeighborsClassifier(n_neighbors=1)
+knn = KNeighborsClassifier(n_neighbors=15)
 #linear SVM
 from sklearn import svm
 linear_svc=svm.SVC(kernel='linear')
